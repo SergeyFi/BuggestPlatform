@@ -24,10 +24,8 @@ protected:
 
 private:
 
-	UPROPERTY()
 	UInputComponent* InputComponent;
 
-	UPROPERTY()
 	ACharacter* PlayerCharacter;
 
 	void FindInputComponent();
