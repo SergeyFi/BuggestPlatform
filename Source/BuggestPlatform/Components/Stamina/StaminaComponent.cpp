@@ -18,7 +18,9 @@ void UStaminaComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BindMovementComponent();
+	GetMovementComponent();
+
+	BindToSprint();
 }
 
 void UStaminaComponent::RemoveStamina(float StaminaDamage, bool Silent)
@@ -32,6 +34,11 @@ void UStaminaComponent::RemoveStamina(float StaminaDamage, bool Silent)
 		if (!Silent)
 		{
 			OnStaminaEnded.Broadcast(Stamina);
+		}
+
+		if (SprintComponent)
+		{
+			SprintComponent->BlockSprint();
 		}
 	}
 
@@ -50,6 +57,14 @@ void UStaminaComponent::RemoveStamina(float StaminaDamage, bool Silent)
 void UStaminaComponent::AddStamina(float StaminaHeal, bool Silent)
 {
 	Stamina += StaminaHeal;
+
+	if (Stamina > 0.0f)
+	{
+		if (SprintComponent)
+		{
+			SprintComponent->UnblockSprint();
+		}
+	}
 
 	if (Stamina > StaminaMax)
 	{
@@ -80,7 +95,7 @@ void UStaminaComponent::SetMaxStamina(float MaxStamina)
 	StaminaMax = MaxStamina;
 }
 
-void UStaminaComponent::BindMovementComponent()
+void UStaminaComponent::GetMovementComponent()
 {
 	OwnerCharacter = Cast<ACharacter>(GetOwner());
 
@@ -95,7 +110,18 @@ void UStaminaComponent::StartStaminaWaste()
 
 void UStaminaComponent::StaminaWaste()
 {
-	RemoveStamina((GetOwner()->GetVelocity().Size() * 0.01) * StaminaWasteAmount * StaminaWasteRate, true);
+	if (GetOwner()->GetVelocity().Size() > 0.0f)
+	{
+		if (CharacterMovement->MovementMode == EMovementMode::MOVE_Walking)
+		{
+			RemoveStamina(StaminaWasteAmount * StaminaWasteRate, true);
+		}
+		else
+		{
+			StopStaminaWaste();
+		}
+	}
+	
 }
 
 void UStaminaComponent::StopStaminaWaste()
@@ -122,4 +148,26 @@ void UStaminaComponent::StaminaRegen()
 void UStaminaComponent::StopStaminaRegen()
 {
 	GetWorld()->GetTimerManager().ClearTimer(TimerStaminaRegen);
+}
+
+void UStaminaComponent::BindToSprint()
+{
+	SprintComponent = GetOwner()->FindComponentByClass<USprintComponent>();
+
+	if (SprintComponent)
+	{
+		SprintComponent->OnWalkModeChange.AddDynamic(this, &UStaminaComponent::ReactionToChangeWalkMode);
+	}
+}
+
+void UStaminaComponent::ReactionToChangeWalkMode(FWalkMode WalkMode)
+{
+	if (WalkMode == FWalkMode::Sprint)
+	{
+		StartStaminaWaste();
+	}
+	else
+	{
+		StopStaminaWaste();
+	}
 }

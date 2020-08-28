@@ -23,6 +23,7 @@ FWalkMode USprintComponent::GetWalkMode()
 void USprintComponent::BlockSprint()
 {
 	SprintIsBlocked = true;
+	SetWalkMode();
 }
 
 void USprintComponent::UnblockSprint()
@@ -38,18 +39,6 @@ void USprintComponent::BeginPlay()
 	CharacterMovement = GetOwner()->FindComponentByClass<UCharacterMovementComponent>();
 
 	BindToInput();
-}
-
-void USprintComponent::InvertWalkMode()
-{
-	if (WalkMode == FWalkMode::Walk)
-	{
-		SetSprintMode();
-	}
-	else
-	{
-		SetWalkMode();
-	}
 }
 
 void USprintComponent::SetSprintMode()
@@ -85,7 +74,7 @@ void USprintComponent::BindToInput()
 
 	if (InputComponent)
 	{
-		InputComponent->BindAction(ActionName, IE_Pressed, this, &USprintComponent::InvertWalkMode);
-		InputComponent->BindAction(ActionName, IE_Released, this, &USprintComponent::InvertWalkMode);
+		InputComponent->BindAction(ActionName, IE_Pressed, this, &USprintComponent::SetSprintMode);
+		InputComponent->BindAction(ActionName, IE_Released, this, &USprintComponent::SetWalkMode);
 	}
 }

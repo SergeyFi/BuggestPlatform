@@ -53,8 +53,6 @@ private:
 
 	FWalkMode WalkMode;
 
-	void InvertWalkMode();
-
 	void SetSprintMode();
 
 	void SetWalkMode();

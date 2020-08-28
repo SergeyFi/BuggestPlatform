@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "BuggestPlatform/Components/Stamina/SprintComponent.h"
 #include "StaminaComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStaminaDelegate, float, Value);
@@ -64,7 +65,9 @@ private:
 
 	class UCharacterMovementComponent* CharacterMovement;
 
-	void BindMovementComponent();
+	class USprintComponent* SprintComponent;
+
+	void GetMovementComponent();
 
 	void StartStaminaWaste();
 
@@ -77,6 +80,11 @@ private:
 	void StaminaRegen();
 
 	void StopStaminaRegen();
+	
+	void BindToSprint();
+
+	UFUNCTION()
+	void ReactionToChangeWalkMode(FWalkMode WalkMode);
 
 	FTimerHandle TimerStaminaWaste;
 
