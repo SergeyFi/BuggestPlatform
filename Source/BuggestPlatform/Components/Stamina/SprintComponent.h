@@ -41,9 +41,6 @@ protected:
 private:
 
 	UPROPERTY(EditAnywhere)
-	float WalkSpeed;
-
-	UPROPERTY(EditAnywhere)
 	float SprintSpeed;
 
 	UPROPERTY(EditAnywhere)

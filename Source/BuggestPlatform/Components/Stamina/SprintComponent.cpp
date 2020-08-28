@@ -51,7 +51,7 @@ void USprintComponent::SetSprintMode()
 
 		if (CharacterMovement)
 		{
-			CharacterMovement->MaxWalkSpeed = SprintSpeed;
+			CharacterMovement->MaxWalkSpeed += SprintSpeed;
 		}
 	}
 }
@@ -64,7 +64,7 @@ void USprintComponent::SetWalkMode()
 
 	if (CharacterMovement)
 	{
-		CharacterMovement->MaxWalkSpeed = WalkSpeed;
+		CharacterMovement->MaxWalkSpeed -= SprintSpeed;
 	}
 }
 
