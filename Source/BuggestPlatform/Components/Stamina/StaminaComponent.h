@@ -62,10 +62,9 @@ private:
 
 	class ACharacter* OwnerCharacter;
 
-	void BindMovementComponent();
+	class UCharacterMovementComponent* CharacterMovement;
 
-	UFUNCTION()
-	void OnMovementUpdate(class ACharacter* Character, EMovementMode MoveMode, uint8 somedata);
+	void BindMovementComponent();
 
 	void StartStaminaWaste();
 

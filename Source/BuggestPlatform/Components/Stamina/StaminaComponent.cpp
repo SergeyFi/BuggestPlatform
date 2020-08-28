@@ -3,6 +3,7 @@
 
 #include "StaminaComponent.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values for this component's properties
 UStaminaComponent::UStaminaComponent()
@@ -83,22 +84,7 @@ void UStaminaComponent::BindMovementComponent()
 {
 	OwnerCharacter = Cast<ACharacter>(GetOwner());
 
-	if (OwnerCharacter)
-	{
-		OwnerCharacter->MovementModeChangedDelegate.AddDynamic(this, &UStaminaComponent::OnMovementUpdate);
-	}
-}
-
-void UStaminaComponent::OnMovementUpdate(ACharacter* Character, EMovementMode MoveMode, uint8 somedata)
-{
-	if (MoveMode == EMovementMode::MOVE_Walking)
-	{
-		StartStaminaWaste();
-	}
-	else
-	{
-		StopStaminaWaste();
-	}
+	CharacterMovement = OwnerCharacter->GetCharacterMovement();
 }
 
 void UStaminaComponent::StartStaminaWaste()
@@ -109,7 +95,7 @@ void UStaminaComponent::StartStaminaWaste()
 
 void UStaminaComponent::StaminaWaste()
 {
-	RemoveStamina(StaminaWasteAmount * StaminaWasteRate, true);
+	RemoveStamina((GetOwner()->GetVelocity().Size() * 0.01) * StaminaWasteAmount * StaminaWasteRate, true);
 }
 
 void UStaminaComponent::StopStaminaWaste()
