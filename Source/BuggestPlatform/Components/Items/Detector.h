@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "Components/SceneComponent.h"
 #include "Detector.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDetectorDelegate, AActor*, OtherActor);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class BUGGESTPLATFORM_API UDetector : public UActorComponent
+class BUGGESTPLATFORM_API UDetector : public USceneComponent
 {
 	GENERATED_BODY()
 
@@ -17,6 +17,7 @@ public:
 	// Sets default values for this component's properties
 	UDetector();
 
+	UPROPERTY(BlueprintAssignable)
 	FDetectorDelegate OnActorDetected;
 
 protected:
@@ -27,11 +28,13 @@ protected:
 	UShapeComponent* DetectionShape;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> TargetClass;
+	bool OnlyPlayerCanUse;
 
 private:
 
 	void BindToOwner();
+
+	void AttachDetector();
 
 	UFUNCTION()
 	void OnShapeOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp,

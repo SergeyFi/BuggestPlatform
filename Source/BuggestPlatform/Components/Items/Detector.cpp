@@ -3,13 +3,14 @@
 
 #include "Detector.h"
 #include "Components/ShapeComponent.h"
+#include "Components/InputComponent.h"
 
 // Sets default values for this component's properties
 UDetector::UDetector()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	TargetClass = AActor::StaticClass();
+	OnlyPlayerCanUse = true;
 }
 
 
@@ -17,6 +18,8 @@ UDetector::UDetector()
 void UDetector::BeginPlay()
 {
 	Super::BeginPlay();
+
+	AttachDetector();
 
 	BindToOwner();
 }
@@ -29,11 +32,26 @@ void UDetector::BindToOwner()
 	}
 }
 
-void UDetector::OnShapeOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
-        int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
-{	
-	if (TargetClass && OtherActor->GetClass() == TargetClass)
+void UDetector::AttachDetector()
+{
+	if (DetectionShape)
 	{
-		OnActorDetected.Broadcast(OtherActor);
+		DetectionShape->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 	}
+}
+
+void UDetector::OnShapeOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
+                               int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+	if (OnlyPlayerCanUse)
+	{
+		if (!OtherActor->FindComponentByClass<UInputComponent>())
+		{
+			return;
+		}
+	}
+
+	OnActorDetected.Broadcast(OtherActor);
+
+	GetOwner()->Destroy();
 }
