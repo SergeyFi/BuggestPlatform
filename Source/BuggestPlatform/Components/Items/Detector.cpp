@@ -8,6 +8,8 @@
 UDetector::UDetector()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+
+	TargetClass = AActor::StaticClass();
 }
 
 
@@ -29,6 +31,9 @@ void UDetector::BindToOwner()
 
 void UDetector::OnShapeOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
         int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
-{
-	OnActorDetected.Broadcast(OtherActor);
+{	
+	if (TargetClass && OtherActor->GetClass() == TargetClass)
+	{
+		OnActorDetected.Broadcast(OtherActor);
+	}
 }

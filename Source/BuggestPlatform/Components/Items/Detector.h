@@ -26,6 +26,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UShapeComponent* DetectionShape;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> TargetClass;
+
 private:
 
 	void BindToOwner();
