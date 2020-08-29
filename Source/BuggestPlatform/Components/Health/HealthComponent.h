@@ -17,6 +17,9 @@ public:
 	// Sets default values for this component's properties
 	UHealthComponent();
 
+	UFUNCTION(BlueprintCallable)
+	void SetHealthAlpha(float Alpha);
+
 	void AddHealth(float Heal, AActor* Instigator = nullptr);
 
 	void AddDamage(float Damage, AActor* Instigator = nullptr);
@@ -25,12 +28,13 @@ public:
 
 	float GetMaxHealth();
 
+	UPROPERTY(BlueprintAssignable)
 	FHealthDelegate OnHealthEnded;
-
+	UPROPERTY(BlueprintAssignable)
 	FHealthDelegate OnHealthFull;
-
+	UPROPERTY(BlueprintAssignable)
 	FHealthDelegate OnHealthHealed;
-
+	UPROPERTY(BlueprintAssignable)
 	FHealthDelegate OnHealthDamaged;
 
 protected:

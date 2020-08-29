@@ -13,6 +13,7 @@ public:
 
 	bool IsActive() const;
 	bool IsHasDelay() const;
+	float GetAlpha() const;
 
 	void SetActive(bool Active = true);
 	void Stop();

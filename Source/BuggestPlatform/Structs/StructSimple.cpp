@@ -24,6 +24,11 @@ bool FTickDelay::IsHasDelay() const
 	return (Delay > 0.f);
 }
 
+float FTickDelay::GetAlpha() const
+{
+	return ((IsHasDelay() && IsActive()) ? (Time / Delay) : 1.f);
+}
+
 void FTickDelay::SetActive(bool Active)
 {
 	bActive = true;
@@ -45,5 +50,5 @@ bool FTickDelay::AddTimeIsOut(const float& DeltaTime)
 		bActive = false;
 	}
 
-	return !bActive;
+	return !IsActive();
 }

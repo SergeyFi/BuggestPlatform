@@ -88,3 +88,8 @@ void UHealthComponent::HealthRegeneration()
 		StopHealthRegeneration();
 	}
 }
+
+void UHealthComponent::SetHealthAlpha(float Alpha)
+{
+	Health = HealthMax * FMath::Clamp(Alpha, 0.f, 1.f);
+}
