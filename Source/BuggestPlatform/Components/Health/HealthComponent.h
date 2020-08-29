@@ -23,6 +23,8 @@ public:
 
 	void SetMaxHealth(float MaxHealth);
 
+	float GetMaxHealth();
+
 	FHealthDelegate OnHealthEnded;
 
 	FHealthDelegate OnHealthFull;
