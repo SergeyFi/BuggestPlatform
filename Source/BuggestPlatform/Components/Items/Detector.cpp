@@ -19,29 +19,15 @@ void UDetector::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AttachDetector();
-
 	BindToOwner();
 }
 
 void UDetector::BindToOwner()
 {
-	if (DetectionShape)
-	{
-		DetectionShape->OnComponentBeginOverlap.AddDynamic(this, &UDetector::OnShapeOverlap);
-	}
+	GetOwner()->OnActorBeginOverlap.AddDynamic(this, &UDetector::OnShapeOverlap);
 }
 
-void UDetector::AttachDetector()
-{
-	if (DetectionShape)
-	{
-		DetectionShape->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	}
-}
-
-void UDetector::OnShapeOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
-                               int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+void UDetector::OnShapeOverlap(AActor* Owner, AActor* OtherActor)
 {
 	if (OnlyPlayerCanUse)
 	{

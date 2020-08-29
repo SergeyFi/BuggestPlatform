@@ -25,19 +25,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere)
-	UShapeComponent* DetectionShape;
-
-	UPROPERTY(EditAnywhere)
 	bool OnlyPlayerCanUse;
 
 private:
 
 	void BindToOwner();
 
-	void AttachDetector();
-
 	UFUNCTION()
-	void OnShapeOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
-		int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	void OnShapeOverlap(AActor* Owner, AActor* OtherActor);
 		
 };
