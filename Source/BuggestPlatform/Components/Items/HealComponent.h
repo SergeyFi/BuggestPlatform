@@ -6,7 +6,7 @@
 #include "Components/Items/BaseItemComponent.h"
 #include "HealComponent.generated.h"
 
-UCLASS()
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BUGGESTPLATFORM_API UHealComponent : public UBaseItemComponent
 {
 	GENERATED_BODY()

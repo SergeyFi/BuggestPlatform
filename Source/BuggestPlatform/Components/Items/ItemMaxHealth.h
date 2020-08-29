@@ -7,7 +7,7 @@
 #include "ItemMaxHealth.generated.h"
 
 
-UCLASS()
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class BUGGESTPLATFORM_API UItemMaxHealth : public UBaseItemComponent
 {
 	GENERATED_BODY()
