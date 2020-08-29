@@ -116,10 +116,6 @@ void UStaminaComponent::StaminaWaste()
 		{
 			RemoveStamina(StaminaWasteAmount * StaminaWasteRate, true);
 		}
-		else
-		{
-			StopStaminaWaste();
-		}
 	}
 	
 }

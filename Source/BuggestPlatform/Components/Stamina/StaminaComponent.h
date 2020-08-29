@@ -33,6 +33,8 @@ public:
 	FStaminaDelegate OnStaminaAdd;
 
 	FStaminaDelegate OnStaminaFull;
+
+	void StopStaminaWaste();
 	
 protected:
 	// Called when the game starts
@@ -72,8 +74,6 @@ private:
 	void StartStaminaWaste();
 
 	void StaminaWaste();
-
-	void StopStaminaWaste();
 
 	void StartStaminaRegen();
 
