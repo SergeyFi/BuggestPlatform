@@ -4,3 +4,4 @@
 
 #include "CoreMinimal.h"
 
+// UE_LOG(LogClass, Warning, TEXT("My Debug Text"));
