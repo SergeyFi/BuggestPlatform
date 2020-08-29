@@ -167,6 +167,11 @@ bool UEnvPlatformComponent::IsMoveActive() const
 	return bMoveActive;
 }
 
+float UEnvPlatformComponent::GetTrampolineDelayAlpha() const
+{
+	return TrampolineDelayTick.GetAlpha();
+}
+
 void UEnvPlatformComponent::SetMove(bool Active)
 {
 	if (bMove && (bMoveActive != Active))

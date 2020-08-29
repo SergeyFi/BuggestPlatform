@@ -64,6 +64,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Move")
 	bool IsMoveActive() const;
+	UFUNCTION(BlueprintPure, Category = "Move")
+	float GetTrampolineDelayAlpha() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Move")
 	void SetMove(bool Active);
