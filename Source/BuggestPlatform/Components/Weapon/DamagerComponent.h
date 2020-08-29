@@ -4,19 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Components/InputComponent.h"
-#include "GameFramework/Character.h"
-#include "MovementComponentBase.generated.h"
+#include "DamagerComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDamagerImpact, AActor*, Impactor);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class BUGGESTPLATFORM_API UMovementComponentBase : public UActorComponent
+class BUGGESTPLATFORM_API UDamagerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UMovementComponentBase();
+	UDamagerComponent();
+
+	FDamagerImpact OnDamagerImpact;
 
 protected:
 	// Called when the game starts
@@ -24,18 +25,13 @@ protected:
 
 private:
 
-	UInputComponent* InputComponent;
+	UPROPERTY(EditAnywhere)
+	float Damage;
 
-	ACharacter* PlayerCharacter;
-
-	void FindInputComponent();
-
-	void BindToInputComponent();
+	UPROPERTY(EditAnywhere)
+	bool DestroyOwner;
 
 	UFUNCTION()
-	void MoveForward(float Value);
-
-	UFUNCTION()
-	void MoveRight(float Value);
+	void OnOwnerBeginOverlap(AActor* OverlapedActor, AActor* OtherActor);
 		
 };
