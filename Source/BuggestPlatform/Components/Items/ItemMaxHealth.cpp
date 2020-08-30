@@ -13,6 +13,7 @@ void UItemMaxHealth::OnTargetDetected(AActor* OtherActor)
         if (HealthComponent)
         {
             HealthComponent->SetMaxHealth(HealthComponent->GetMaxHealth() + MaxHealthAmount);
+            HealthComponent->AddDamage(1.0f);
         }
     }
 }
