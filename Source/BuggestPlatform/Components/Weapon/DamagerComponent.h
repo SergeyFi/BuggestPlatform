@@ -29,9 +29,28 @@ private:
 	float Damage;
 
 	UPROPERTY(EditAnywhere)
+	bool DamageLoop;
+
+	UPROPERTY(EditAnywhere)
+	float DamageDelay;
+
+	UPROPERTY(EditAnywhere)
 	bool DestroyOwner;
 
 	UFUNCTION()
 	void OnOwnerBeginOverlap(AActor* OverlapedActor, AActor* OtherActor);
+
+	UFUNCTION()
+	void OnOwnerEndOverlap(AActor* OverlapedActor, AActor* OtherActor);
+
+	void StartDamageLoop();
+
+	void StopDamageLoop();
+
+	void ApplyDamage();
+
+	FTimerHandle TimerDamageLoop;
+
+	AActor* Target;
 		
 };
